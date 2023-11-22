@@ -10,6 +10,9 @@ import java.io.*;
 public class CSVReader {
     private CSVParser csvParser;
 
+    /**
+     * @param resourcePath Path from the CSV File
+     */
     public CSVReader(String resourcePath) {
         try {
             InputStream inputStream = CSVReader.class.getResourceAsStream(resourcePath);
@@ -20,16 +23,22 @@ public class CSVReader {
         }
     }
 
-    public int getSmallestTemperatureSpread() {
-        int day = 0;
+    /**
+     * @param returnColumn The column you want to have back as a result
+     * @param column1      The column with the first value
+     * @param column2      The column with the second value
+     * @return Content of the specified returnColumn
+     */
+    public String getSmallestDiffBetween2Values(int returnColumn, int column1, int column2) {
+        String result = "";
         int tempDifference = Integer.MAX_VALUE;
         for (CSVRecord csvRecord : csvParser) {
-            if ((StringUtils.isNumeric(csvRecord.get(1)) && StringUtils.isNumeric(csvRecord.get(2)))
-                    && tempDifference > Integer.parseInt(csvRecord.get(1)) - Integer.parseInt(csvRecord.get(2))) {
-                tempDifference = Integer.parseInt(csvRecord.get(1)) - Integer.parseInt(csvRecord.get(2));
-                day = Integer.parseInt(csvRecord.get(0));
+            if ((StringUtils.isNumeric(csvRecord.get(column1)) && StringUtils.isNumeric(csvRecord.get(column2)))
+                    && tempDifference > Math.abs(Integer.parseInt(csvRecord.get(column1)) - Integer.parseInt(csvRecord.get(column2)))) {
+                tempDifference = Math.abs(Integer.parseInt(csvRecord.get(column1)) - Integer.parseInt(csvRecord.get(column2)));
+                result = csvRecord.get(returnColumn);
             }
         }
-        return day;
+        return result;
     }
 }

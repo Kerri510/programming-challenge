@@ -17,13 +17,14 @@ public final class App {
      */
     public static void main(String... args) {
 
-        // Your preparation code …
-        CSVReader csvReader = new CSVReader("/de/exxcellent/challenge/weather.csv");
+        // Read the CSV files
+        CSVReader csvReaderWeather = new CSVReader("/de/exxcellent/challenge/weather.csv");
+        CSVReader csvReaderFootball = new CSVReader("/de/exxcellent/challenge/football.csv");
 
-        int dayWithSmallestTempSpread = csvReader.getSmallestTemperatureSpread();     // Your day analysis function call …
+        String dayWithSmallestTempSpread = csvReaderWeather.getSmallestDiffBetween2Values(0, 1, 2);
         System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
 
-        String teamWithSmallestGoalSpread = "A good team"; // Your goal analysis function call …
+        String teamWithSmallestGoalSpread = csvReaderFootball.getSmallestDiffBetween2Values(0, 5, 6);
         System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);
     }
 }
