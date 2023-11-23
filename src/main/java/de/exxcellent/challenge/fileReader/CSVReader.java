@@ -1,11 +1,14 @@
 package de.exxcellent.challenge.fileReader;
 
+import de.exxcellent.challenge.model.Football;
+import de.exxcellent.challenge.model.Weather;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CSVReader {
     private CSVParser csvParser;
@@ -24,21 +27,57 @@ public class CSVReader {
     }
 
     /**
-     * @param returnColumn The column you want to have back as a result
-     * @param column1      The column with the first value
-     * @param column2      The column with the second value
-     * @return Content of the specified returnColumn
+     * @return Returning CSV File as list
      */
-    public String getSmallestDiffBetween2Values(int returnColumn, int column1, int column2) {
-        String result = "";
-        int tempDifference = Integer.MAX_VALUE;
-        for (CSVRecord csvRecord : csvParser) {
-            if ((StringUtils.isNumeric(csvRecord.get(column1)) && StringUtils.isNumeric(csvRecord.get(column2)))
-                    && tempDifference > Math.abs(Integer.parseInt(csvRecord.get(column1)) - Integer.parseInt(csvRecord.get(column2)))) {
-                tempDifference = Math.abs(Integer.parseInt(csvRecord.get(column1)) - Integer.parseInt(csvRecord.get(column2)));
-                result = csvRecord.get(returnColumn);
-            }
+    public List<Football> footballCSVAsList() {
+        List<Football> result = new ArrayList<>();
+        List<CSVRecord> tempList = csvParser.getRecords();
+        for (int i = 1; i < tempList.size(); i++) {
+            CSVRecord csvRecord = tempList.get(i);
+
+            Football football = new Football(csvRecord.get(0),
+                    Integer.parseInt(csvRecord.get(1)),
+                    Integer.parseInt(csvRecord.get(2)),
+                    Integer.parseInt(csvRecord.get(3)),
+                    Integer.parseInt(csvRecord.get(4)),
+                    Integer.parseInt(csvRecord.get(5)),
+                    Integer.parseInt(csvRecord.get(6)),
+                    Integer.parseInt(csvRecord.get(7)));
+
+            result.add(football);
         }
+
         return result;
     }
+
+    /**
+     * @return Returning CSV File as list
+     */
+    public List<Weather> weatherCSVAsList() {
+        List<Weather> result = new ArrayList<>();
+        List<CSVRecord> tempList = csvParser.getRecords();
+        for (int i = 1; i < tempList.size(); i++) {
+            CSVRecord csvRecord = tempList.get(i);
+
+            Weather weather = new Weather(Integer.parseInt(csvRecord.get(0)),
+                    Integer.parseInt(csvRecord.get(1)),
+                    Integer.parseInt(csvRecord.get(2)),
+                    Integer.parseInt(csvRecord.get(3)),
+                    Float.parseFloat(csvRecord.get(4)),
+                    Integer.parseInt(csvRecord.get(5)),
+                    Integer.parseInt(csvRecord.get(6)),
+                    Float.parseFloat(csvRecord.get(7)),
+                    Integer.parseInt(csvRecord.get(8)),
+                    Integer.parseInt(csvRecord.get(9)),
+                    Float.parseFloat(csvRecord.get(10)),
+                    Integer.parseInt(csvRecord.get(11)),
+                    Integer.parseInt(csvRecord.get(12)),
+                    Float.parseFloat(csvRecord.get(13)));
+
+            result.add(weather);
+        }
+
+        return result;
+    }
+
 }

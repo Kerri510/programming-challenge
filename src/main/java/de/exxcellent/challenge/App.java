@@ -1,6 +1,11 @@
 package de.exxcellent.challenge;
 
 import de.exxcellent.challenge.fileReader.CSVReader;
+import de.exxcellent.challenge.model.Football;
+import de.exxcellent.challenge.model.Weather;
+import de.exxcellent.challenge.util.Calculator;
+
+import java.util.List;
 
 /**
  * The entry class for your solution. This class is only aimed as starting point and not intended as baseline for your software
@@ -21,10 +26,13 @@ public final class App {
         CSVReader csvReaderWeather = new CSVReader("/de/exxcellent/challenge/weather.csv");
         CSVReader csvReaderFootball = new CSVReader("/de/exxcellent/challenge/football.csv");
 
-        String dayWithSmallestTempSpread = csvReaderWeather.getSmallestDiffBetween2Values(0, 1, 2);
+        List<Weather> csvWeatherAsList = csvReaderWeather.weatherCSVAsList();
+        List<Football> csvFootballAsList = csvReaderFootball.footballCSVAsList();
+
+        int dayWithSmallestTempSpread = Calculator.getSmallestTempSpread(csvWeatherAsList);
         System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
 
-        String teamWithSmallestGoalSpread = csvReaderFootball.getSmallestDiffBetween2Values(0, 5, 6);
+        String teamWithSmallestGoalSpread = Calculator.getSmallestDistanceBetweenGoals(csvFootballAsList);
         System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);
     }
 }
